@@ -21,10 +21,26 @@ package therefore has two parts:
 magpie plugin add github:blackzhuge/magpie-agent-pi-desktop
 ```
 
-From a checkout:
+From a checkout (loads the folder directly, for development):
 
 ```sh
 magpie plugin add ./magpie-agent-pi-desktop
+```
+
+A GitHub install is copied into magpie's managed folder
+(`~/.config/magpie/plugins/node_modules/magpie-agent-pi-desktop`), like the
+community plugins. Update it with:
+
+```sh
+magpie plugin update
+```
+
+If a version bump has not happened and the update does not pick the new
+commit up, remove and add it again:
+
+```sh
+magpie plugin rm github:blackzhuge/magpie-agent-pi-desktop
+magpie plugin add github:blackzhuge/magpie-agent-pi-desktop
 ```
 
 The row appears as **PI-Desktop** when `~/.pi-desktop` exists. Its id is
