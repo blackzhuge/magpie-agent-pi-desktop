@@ -51,6 +51,20 @@ The package never reads or writes PI-Desktop's secret store. A local magpie
 gateway does not require a key. If you enabled `magpie gateway-key`, set the
 gateway key once in PI-Desktop's provider settings.
 
+## Library (instructions, MCP, skills)
+
+- **Skills — supported.** PI-Desktop scans `~/.agents/skills` for global user
+  skills (`<id>/SKILL.md`), so the descriptor declares that folder. Tick
+  skills for PI-Desktop on Library › Skills.
+- **Instructions — not wired.** PI-Desktop's only global instruction file is
+  `~/.pi/agent/AGENTS.md`, which magpie's built-in Pi already targets. magpie
+  writes one per-agent block into that file, so pointing both agents at it
+  would make them overwrite each other's block (including each agent's
+  「专属」 additions).
+- **MCP — not wired.** PI-Desktop keeps one JSON per server under
+  `~/.agents/servers/`, while magpie's Library MCP writer writes a single map
+  file in a preset format. There is no path declaration that fits.
+
 ## Compatibility
 
 - PI-Desktop 0.22 (Electron; providers, models and settings in `pi.sqlite`,
@@ -96,6 +110,18 @@ PI-Desktop 新建会话即可。选 Default 断开时恢复原来的 provider �
 
 插件不读写 PI-Desktop 的密钥库；本机 magpie 网关默认不校验 key。如果启用了
 `magpie gateway-key`，在 PI-Desktop 的 provider 设置里填一次网关 key。
+
+### 资源库（指令 / MCP / 技能）
+
+- **技能：已接入。** PI-Desktop 从 `~/.agents/skills` 读取全局技能
+  （`<id>/SKILL.md`），描述符已声明该目录；在「资源库 › 技能」里给
+  PI-Desktop 勾选即可。
+- **指令：未接入。** PI-Desktop 唯一的全局指令文件是
+  `~/.pi/agent/AGENTS.md`，而 magpie 内置的 Pi 也写这个文件；magpie 按 Agent
+  各写一段，两个 Agent 指向同一文件会互相覆盖（包括各自的「专属」内容）。
+- **MCP：未接入。** PI-Desktop 把每个 server 存成
+  `~/.agents/servers/<id>.json`，而 magpie 资源库的 MCP 写入器写的是单个
+  map 文件，无法用声明一个路径的方式表达。
 
 Agent id 是 `pi-desktop-app`：magpie 已内置一个只做用量归因的 `pi-desktop`
 客户端，插件不能占用同名 id。
