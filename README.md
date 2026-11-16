@@ -77,9 +77,38 @@ gateway key once in PI-Desktop's provider settings.
   writes one per-agent block into that file, so pointing both agents at it
   would make them overwrite each other's block (including each agent's
   「专属」 additions).
-- **MCP — not wired.** PI-Desktop keeps one JSON per server under
-  `~/.agents/servers/`, while magpie's Library MCP writer writes a single map
-  file in a preset format. There is no path declaration that fits.
+- **MCP — through PI-Desktop's plugin system.** PI-Desktop keeps one JSON per
+  server under `~/.agents/servers/`, while magpie's Library MCP writer writes a
+  single map file in a preset format. `pi-desktop-mcp-plugin/` therefore
+  contributes one HTTP MCP server, `magpie`, pointing at magpie's MCP hub. See
+  [MCP for PI-Desktop](#mcp-for-pi-desktop).
+
+## MCP for PI-Desktop
+
+`pi-desktop-mcp-plugin/` is a PI-Desktop plugin. Its `manifest.json` declares
+one server:
+
+```json
+{ "id": "magpie", "transport": "http", "url": "http://127.0.0.1:3425/mcp/magpie/hub" }
+```
+
+The hub serves every server in magpie's Library, so servers are still added,
+edited and switched off only in the Library. Prepare it once:
+
+1. Turn on `mcpHub` in `~/.config/magpie/library.json` (Library › MCP › MCP
+   router). With the hub off, PI-Desktop connects but lists no tools. Setting
+   the field directly leaves the other agents' MCP entries alone; using the
+   switch, or any later Library sync, also replaces them with one `magpie`
+   server each (`magpie library mcp router off` puts them back).
+2. Quit PI-Desktop.
+3. `node pi-desktop-mcp-plugin/install.mjs`, or install the folder from
+   PI-Desktop's Plugins page.
+4. Start PI-Desktop and open a new conversation.
+
+The endpoint is magpie's gateway, so magpie must be running. A different
+gateway port means editing `url` in the manifest. Uninstall with PI-Desktop
+quit: remove `~/.pi-desktop/plugins/installed/blackzhuge.magpie-mcp` and its
+row in `~/.pi-desktop/plugins/registry.json`.
 
 ## Compatibility
 
@@ -135,9 +164,32 @@ PI-Desktop 新建会话即可。选 Default 断开时恢复原来的 provider �
 - **指令：未接入。** PI-Desktop 唯一的全局指令文件是
   `~/.pi/agent/AGENTS.md`，而 magpie 内置的 Pi 也写这个文件；magpie 按 Agent
   各写一段，两个 Agent 指向同一文件会互相覆盖（包括各自的「专属」内容）。
-- **MCP：未接入。** PI-Desktop 把每个 server 存成
+- **MCP：通过 PI-Desktop 插件接入。** PI-Desktop 把每个 server 存成
   `~/.agents/servers/<id>.json`，而 magpie 资源库的 MCP 写入器写的是单个
-  map 文件，无法用声明一个路径的方式表达。
+  map 文件，无法用声明一个路径的方式表达。所以 `pi-desktop-mcp-plugin/`
+  以 PI-Desktop 插件的形式贡献一个名为 `magpie` 的 HTTP MCP server，
+  指向 magpie 的 MCP hub。
+
+### 给 PI-Desktop 接入 MCP
+
+准备好一次：
+
+1. 打开 magpie 的 MCP hub：把 `~/.config/magpie/library.json` 里的
+   `mcpHub` 设为 `true`（对应「资源库 › MCP › MCP router」）。hub 关闭时
+   PI-Desktop 能连上，但工具列表为空。
+2. 退出 PI-Desktop。
+3. 运行 `node pi-desktop-mcp-plugin/install.mjs`，或在 PI-Desktop 的插件页
+   从本地文件夹安装。
+4. 启动 PI-Desktop，新建会话。
+
+资源库仍是 server 的唯一入口：增删改、开关都在那边完成，hub 会带上全部
+server。端点走 magpie 网关，所以 magpie 要在运行；改过网关端口时同步修改
+插件 `manifest.json` 里的 `url`。
+
+> 直接改 `mcpHub` 只让 hub 提供工具，不会改写其他 agent 的 MCP 配置；如果
+> 在界面里打开这个开关，或在打开状态下触发资源库同步，其他 agent 的 MCP
+> 条目会被合并成一个 `magpie` server。`magpie library mcp router off` 可以
+> 还原。
 
 Agent id 是 `pi-desktop-app`：magpie 已内置一个只做用量归因的 `pi-desktop`
 客户端，插件不能占用同名 id。
