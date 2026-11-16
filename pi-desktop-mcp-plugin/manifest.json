@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "blackzhuge.magpie-mcp",
   "name": "Magpie MCP",
-  "version": "0.1.0",
-  "description": "Magpie Library's MCP servers inside PI-Desktop, through magpie's MCP hub.",
+  "version": "0.2.0",
+  "description": "The MCP servers ticked for PI-Desktop in Magpie's Library, through magpie's MCP hub.",
   "author": "blackzhuge",
   "main": "main.js",
   "contributes": {
@@ -12,13 +12,18 @@
         "id": "magpie",
         "label": "Magpie Library",
         "transport": "http",
-        "url": "http://127.0.0.1:3425/mcp/magpie/hub"
+        "url": "http://127.0.0.1:3425/mcp/magpie/hub/pi-desktop-app"
       }
     ]
   },
   "permissions": [
     "mcp.server.remote"
   ],
+  "net": {
+    "domains": [
+      "127.0.0.1"
+    ]
+  },
   "engines": {
     "piDesktop": ">=0.22.0"
   }
