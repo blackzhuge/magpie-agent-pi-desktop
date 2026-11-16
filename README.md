@@ -18,7 +18,7 @@ package therefore has two parts:
 ## Install
 
 ```sh
-magpie plugin add magpie-agent-pi-desktop
+magpie plugin add github:blackzhuge/magpie-agent-pi-desktop
 ```
 
 From a checkout:
@@ -88,7 +88,7 @@ restore and provider creation without touching a real profile.
 安装：
 
 ```sh
-magpie plugin add magpie-agent-pi-desktop
+magpie plugin add github:blackzhuge/magpie-agent-pi-desktop
 ```
 
 使用：先退出 PI-Desktop，在 magpie 的 Agents 页面给它选一个模型，再启动
