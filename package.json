@@ -1,0 +1,38 @@
+{
+  "name": "magpie-agent-pi-desktop",
+  "version": "0.1.0",
+  "description": "PI-Desktop as a magpie agent: pick one of magpie's models for it on the Agents page",
+  "type": "module",
+  "main": "./index.mjs",
+  "files": [
+    "index.mjs",
+    "bridge.mjs",
+    "pi-desktop.agent.js",
+    "assets/icon.png",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "bun test"
+  },
+  "keywords": [
+    "magpie",
+    "magpie-agent",
+    "magpie-plugin",
+    "pi-desktop",
+    "pi"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackzhuge/magpie-agent-pi-desktop.git"
+  },
+  "homepage": "https://github.com/blackzhuge/magpie-agent-pi-desktop",
+  "bugs": {
+    "url": "https://github.com/blackzhuge/magpie-agent-pi-desktop/issues"
+  },
+  "magpie": {
+    "name": "PI-Desktop",
+    "agent": "./pi-desktop.agent.js",
+    "icon": "https://raw.githubusercontent.com/blackzhuge/magpie-agent-pi-desktop/main/assets/icon.png"
+  }
+}
